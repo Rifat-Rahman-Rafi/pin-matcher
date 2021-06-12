@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="random_display" class="form-control" type="text">
+                    <button class="generate-btn" onclick="random_generate()">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="check_display"class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="dis('7')">7</div>
+                              <div class="button" onclick="dis('8')">8</div>
+                              <div class="button" onclick="dis('9')">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="dis('4')">4</div>
+                              <div class="button" onclick="dis('5')">5</div>
+                              <div class="button" onclick="dis('6')">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="dis('1')">1</div>
+                              <div class="button" onclick="dis('2')">2</div>
+                              <div class="button" onclick="dis('3')">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" id="lastNumber" onclick="lastNumber_clr('<')"><</div>
+                                <div class="button" onclick="dis('0')">0</div>
+                                <div class="button" onclick="clr()">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn" id="submit_btn" onclick="check('<')">Submit</button>
+                               
+                                <p class="action-left" id="remember">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            
+            <p class="notify" id="last1">X Pin Didn't Match, Please try again</p>
+            <p class="notify" id="last2">^_^ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+
+
+
+
+ 
+
+
+
+    <script>
+
+
+
+         function random_generate()
+         {
+            var val = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById("random_display").value = val; 
+
+         }
+
+
+      function dis(val)
+       {
+           document.getElementById("check_display").value+=val
+       }
+    
+       let cnt=3;
+
+       function clr()
+          {
+            document.getElementById("check_display").value = ""
+        
+
+           }
+
+
+           function check(){
+
+            
+            
+            const pin=document.getElementById("random_display").value;
+            const type_pin=document.getElementById("check_display").value;
+
+            if(pin==type_pin && pin!=0 && type_pin!=0)
+            {
+                //alert("Successfully Done");
+                document.getElementById("submit_btn").disabled = true;
+                document.getElementById("random_display").value="";
+                document.getElementById("check_display").value="";
+                document.getElementById("submit_btn").style.backgroundColor = "green";
+                document.getElementById("last1").style.display="none" ;
+                document.getElementById("last2").style.display = "block";
+              
+            }
+            else{
+                
+        cnt--;
+             
+        if(cnt==2)
+        {
+              document.getElementById("remember").innerText="2 try left";
+              document.getElementById("last2").style.display = "block";
+              document.getElementById("last2").style.display = "none";
+
+        }
+              if(cnt==1)
+              {
+
+              document.getElementById("remember").innerText="1 try left";
+              document.getElementById("last2").style.display = "block";
+              document.getElementById("last2").style.display = "none";
+
+              }
+              if(cnt==0)
+              {
+                document.getElementById("remember").innerText="0 try left";
+                document.getElementById("submit_btn").disabled = true;
+                document.getElementById("submit_btn").style.backgroundColor = "red";
+                document.getElementById("last2").style.display = "none";
+              }
+            
+                    
+            }
+
+
+        }
+
+        function lastNumber_clr(){
+
+            const pin=document.getElementById("check_display").value;
+
+            let num=Number(pin);
+         
+
+
+
+            num/=10;
+
+             let k=parseInt(num);
+
+             if(k!=0)
+             {
+
+            document.getElementById("check_display").value=k;
+
+             }
+             else{
+                  
+                document.getElementById("check_display").value="";
+
+             }
+
+            
+
+
+        }
+
+
+           
+
+
+    </script>
+</body>
+</html>
